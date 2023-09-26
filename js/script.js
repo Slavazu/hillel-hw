@@ -14,7 +14,6 @@ console.log(user);
 
 
 2.
-// Чи можна змінити об'єкт, оголошений за допомогою const?
 // Ні, не можна змінити об'єкт оголошений за допомогою 'const' - це приведе до помилки.
 //const user = { name: "John"};
 
@@ -33,7 +32,6 @@ let salaries = {
 console.log(salaries);
 
 let sum = null
-
 
 for (let key in salaries) {
     sum += salaries[key];
