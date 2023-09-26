@@ -1,6 +1,6 @@
 'use strict';
-const operand1 = parseFloat(prompt("Введіть перший операнд:"));
-const operand2 = parseFloat(prompt("Введіть другий операнд:"));
+const operand1 = parseFloat(prompt("enter first number:"));
+const operand2 = parseFloat(prompt("enter second number:"));
 
 function add(a, b) {
     const result = a + b;
