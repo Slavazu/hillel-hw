@@ -12,7 +12,6 @@ delete user.name;
 console.log(user);
 
 
-
 2.
 // Ні, не можна змінити об'єкт оголошений за допомогою 'const' - це приведе до помилки.
 //const user = { name: "John"};
@@ -20,7 +19,6 @@ console.log(user);
 // Це працюватиме? - Так, якщо замінити 'const' на 'let'.
 user.name = "Pete";
 console.log(user);
-
 
 
 3.
