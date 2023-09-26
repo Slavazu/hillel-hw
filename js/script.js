@@ -13,7 +13,7 @@ function add(a, b) {
     console.log(`result: ${a} * ${b} = ${result}`);
 }function divide(a, b) {
     if (b === 0) {
-        console.log("Error: division by zero is not possible");
+        console.log("error: division by zero isn't possible");
     } else {
         const result = a / b;
         console.log(`result: ${a} / ${b} = ${result}`);
