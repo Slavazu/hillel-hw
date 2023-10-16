@@ -1,5 +1,3 @@
-'use strict'
-
 function generateKey(length, characters) {
   let result = '';
   const charactersLength = characters.length;
