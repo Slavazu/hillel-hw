@@ -1,0 +1,29 @@
+{
+  "name": "hillel-hw",
+  "version": "1.0.0",
+  "description": "~~~~Опис ДЗ~~~~",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Slavazu/hillel-hw.git"
+  },
+  "author": "Viacheslav_Zubenko",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Slavazu/hillel-hw/issues"
+  },
+  "homepage": "https://github.com/Slavazu/hillel-hw#readme",
+  "dependencies": {
+    "bootstrap": "^5.3.2",
+    "lodash": "^4.17.21"
+  },
+  "devDependencies": {
+    "eslint": "^8.51.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.28.1",
+    "prettier": "3.0.3"
+  }
+}
