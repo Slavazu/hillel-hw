@@ -55,19 +55,11 @@ const users = [
   },
 ];
 
-const richUsers = [];
-let totalBalance = 0;
+const richUsers = users
+  .filter((user) => +(user.balance.replace(/\$/, '').replace(/,/g, '')) > 2000)
+  .map((user) => user.phone);
 
-for (let i = 0; i < users.length; i += 1) {
-  const user = users[i];
-  const balance = +(user.balance.replace(/\$/g, '').replace(/,/g, ''));
-
-  if (balance > 2000) {
-    richUsers.push(user.phone);
-  }
-
-  totalBalance += balance;
-}
+const totalBalance = users.reduce((acc, user) => acc + +(user.balance.replace(/\$/, '').replace(/,/g, '')), 0);
 
 console.log('Телефон користувачів баланс яких більший за 2000 доларів:', richUsers);
 console.log('Загальна сума балансу всіх користувачів:', totalBalance);
