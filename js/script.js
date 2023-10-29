@@ -14,7 +14,7 @@ console.log('1. indexOf:', indexOf(numbers, 3));
 
 // Имитатор lastIndexOf
 function lastIndexOf(array, searchElement) {
-  for (let i = array.length - 1; i >= 0; i--) {
+  for (let i = array.length - 1; i >= 0; i -= 1) {
     if (array[i] === searchElement) {
       return i;
     }
@@ -26,7 +26,7 @@ console.log('2. lastIndexOf:', lastIndexOf(numbers, 3));
 
 // Имитатор find
 function find(array, callback) {
-  for (let i = 0; i < array.length; i++) {
+  for (let i = 0; i < array.length; i += 1) {
     if (callback(array[i])) {
       return array[i];
     }
@@ -38,7 +38,7 @@ console.log('3. find:', find(numbers, (num) => num > 3));
 
 // Имитатор findIndex
 function findIndex(array, callback) {
-  for (let i = 0; i < array.length; i++) {
+  for (let i = 0; i < array.length; i += 1) {
     if (callback(array[i])) {
       return i;
     }
@@ -50,7 +50,7 @@ console.log('4. findIndex:', findIndex(numbers, (num) => num > 3));
 
 // Имитатор includes
 function includes(array, searchElement) {
-  for (let i = 0; i < array.length; i++) {
+  for (let i = 0; i < array.length; i += 1) {
     if (array[i] === searchElement) {
       return true;
     }
@@ -62,7 +62,7 @@ console.log('5. includes:', includes(numbers, 3));
 
 // Имитатор every
 function every(array, callback) {
-  for (let i = 0; i < array.length; i++) {
+  for (let i = 0; i < array.length; i += 1) {
     if (!callback(array[i])) {
       return false;
     }
@@ -74,7 +74,7 @@ console.log('6. every:', every(numbers, (num) => num > 0));
 
 // Имитатор some
 function some(array, callback) {
-  for (let i = 0; i < array.length; i++) {
+  for (let i = 0; i < array.length; i += 1) {
     if (callback(array[i])) {
       return true;
     }
