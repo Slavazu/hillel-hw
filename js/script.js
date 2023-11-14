@@ -1,16 +1,19 @@
-function myBind(func, context, ...partialArgs) {
+const person = {
+  name: 'Слава',
+};
+function info(phone, email) {
+  console.log(`Имя: ${this.name}, Тел.: ${phone}, Email: ${email}`);
+}
+function myBind(fn, context, ...rest) {
   return function (...args) {
-    const allArgs = partialArgs.concat(args);
-    return func.bind(context, ...allArgs)();
+    const uniqId = Date.now().toString();
+    context[uniqId] = fn;
+    const result = context[uniqId](...rest.concat(args));
+    delete context[uniqId];
+    return result;
   };
 }
 
-const person = {
-  name: 'Viacheslav',
-  info(age, email) {
-    console.log(`My name is ${this.name}, i’m ${age} years old, my email: ${email}.`);
-  },
-};
-
-const boundFunction = myBind(person.info, person, 33, 'viach@gmail.com');
-boundFunction();
+myBind(info, person)('099999222', 'vi@gmail.com');
+myBind(info, person, '099999222')('vi@gmail.com');
+myBind(info, person, '099999222', 'vi@gmail.com')();
