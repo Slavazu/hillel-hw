@@ -1,10 +1,41 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-<script src="./js/script.js"></script>
-</body>
+    <head>
+        <meta charset="UTF-8" />
+        <title>Избранное</title>
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x"
+            crossorigin="anonymous"
+        />
+    </head>
+    <body id="themeBody" class="light-theme">
+        <main>
+            <div class="container mt-3">
+                <div class="row mt-3">
+                    <form id="addItemForm" class="mb-3">
+                        <div class="input-group">
+                            <input
+                                type="text"
+                                id="newItemInput"
+                                class="form-control"
+                                placeholder="Введите новый элемент"
+                                required
+                                autocomplete="off"
+                            />
+                            <button type="submit" class="btn btn-primary">
+                                Добавить в избранное
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                <div class="row">
+                    <h1 class="text-center">Избранное</h1>
+                    <ul id="favoritesList" class="list-group"></ul>
+                </div>
+            </div>
+        </main>
+        <script src="js/script.js"></script>
+    </body>
 </html>
