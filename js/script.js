@@ -1,23 +1,57 @@
-document.addEventListener('DOMContentLoaded', () => {
-  const form = document.getElementById('Form');
+(() => {
+  const formHandler = (e) => {
+    e.stopPropagation();
+    e.preventDefault();
+    const { target } = e;
+    const data = {};
+    const formFields = target.querySelectorAll('input, textarea, select');
 
-  form.addEventListener('submit', (event) => {
-    event.preventDefault();
+    formFields.forEach((field) => {
+      const { name, value, type } = field;
+      if (type !== 'submit' && !(type === 'checkbox' && !field.checked)) {
+        data[name] = value;
+      }
+    });
 
-    const formData = {
-      email: form.elements.email.value,
-      firstName: form.elements.firstName.value,
-      lastName: form.elements.lastName.value,
-      nickname: form.elements.nickname.value,
-      password: form.elements.password.value,
-      option: form.elements.option.value,
-      message: form.elements.message.value,
-      file: form.elements.file.value,
-      terms: form.elements.terms.checked,
-    };
+    localStorage.setItem('formData', JSON.stringify(data));
+    window.location.href = 'displayData.html';
+  };
 
-    localStorage.setItem('formData', JSON.stringify(formData));
+  const displayUserData = () => {
+    const userDataList = document.querySelector('#userDataList');
+    const noDataMessage = document.querySelector('#noDataMessage');
 
-    form.reset();
-  });
-});
+    const savedData = localStorage.getItem('formData');
+
+    console.log('Saved Data:', savedData);
+
+    if (savedData) {
+      const parsedData = JSON.parse(savedData);
+
+      for (const [key, value] of Object.entries(parsedData)) {
+        const listItem = document.createElement('li');
+        listItem.classList.add('list-group-item');
+        listItem.innerHTML = `<strong>${key}:</strong> ${value}`;
+        userDataList.appendChild(listItem);
+      }
+
+      noDataMessage.style.display = 'none';
+    } else {
+      userDataList.style.display = 'none';
+      noDataMessage.style.display = 'block';
+    }
+  };
+
+  const loadedHandler = () => {
+    const form = document.querySelector('#form');
+    if (form) {
+      form.addEventListener('submit', formHandler);
+    }
+
+    if (window.location.href.includes('displayData.html')) {
+      displayUserData();
+    }
+  };
+
+  document.addEventListener('DOMContentLoaded', loadedHandler);
+})();
