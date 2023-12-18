@@ -1,86 +1,69 @@
-const todoApp = (function () {
-  const todoModel = {
-    todos: [],
+(function () {
+  const createTemplate = (data) => {
+    const wrapper = document.createElement('div');
+    wrapper.className = 'col-4';
+    wrapper.setAttribute('data-todo-item', '');
 
-    addTodo(text) {
-      if (text.trim() !== '') {
-        this.todos.unshift({ text });
-        this.saveToLocalStorage();
-      }
-    },
+    const taskWrapper = document.createElement('div');
+    taskWrapper.className = 'taskWrapper';
+    wrapper.appendChild(taskWrapper);
 
-    removeTodo(index) {
-      this.todos.splice(index, 1);
-      this.saveToLocalStorage();
-    },
+    const taskHeading = document.createElement('div');
+    taskHeading.className = 'taskHeading';
+    taskHeading.innerHTML = data.title;
+    taskWrapper.appendChild(taskHeading);
 
-    saveToLocalStorage() {
-      localStorage.setItem('todos', JSON.stringify(this.todos));
-    },
+    const taskDescription = document.createElement('div');
+    taskDescription.className = 'taskDescription';
+    taskDescription.innerHTML = data.description;
+    taskWrapper.appendChild(taskDescription);
 
-    loadFromLocalStorage() {
-      const storedTodos = localStorage.getItem('todos');
-      this.todos = storedTodos ? JSON.parse(storedTodos) : [];
-    },
+    const deleteBtn = document.createElement('button');
+    deleteBtn.className = 'btn btn-sm btn-danger';
+    deleteBtn.innerText = 'X';
+    deleteBtn.setAttribute('data-remove-btn', '');
+    taskWrapper.appendChild(deleteBtn);
+
+    return wrapper;
   };
 
-  const todoView = {
-    button: document.querySelector('[data-add]'),
-    input: document.querySelector('[data-input]'),
-    list: document.querySelector('[data-list]'),
-
-    init(controller) {
-      this.button.addEventListener('click', () => {
-        controller.handleAddTodo();
-      });
-    },
-
-    render(todos, removeTodoHandler) {
-      this.list.innerHTML = '';
-      todos.forEach((todo, index) => {
-        const li = document.createElement('li');
-        li.className = 'todo_list_item';
-        li.textContent = todo.text;
-
-        const deleteBtn = document.createElement('button');
-        deleteBtn.innerText = 'Delete';
-
-        deleteBtn.addEventListener('click', () => {
-          removeTodoHandler(index);
-        });
-
-        li.appendChild(deleteBtn);
-        this.list.appendChild(li);
-      });
-    },
+  const renderTodoItem = (elementToRender) => {
+    const todoContainer = document.querySelector('#todoItems');
+    todoContainer.prepend(elementToRender);
+    return elementToRender;
   };
 
-  const todoController = {
-    model: todoModel,
-    view: todoView,
+  const formHandler = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const { target } = e;
+    const data = Array.from(target.querySelectorAll('input, textarea'))
+      .reduce((acc, item) => {
+        acc[item.name] = item.value;
+        return acc;
+      }, {});
 
-    init() {
-      this.model.loadFromLocalStorage();
-      this.view.init(this);
-      this.view.render(this.model.todos, this.handleRemoveTodo.bind(this));
-    },
-
-    handleAddTodo() {
-      const text = this.view.input.value;
-      this.model.addTodo(text);
-      this.view.render(this.model.todos, this.handleRemoveTodo.bind(this));
-      this.view.input.value = '';
-    },
-
-    handleRemoveTodo(index) {
-      this.model.removeTodo(index);
-      this.view.render(this.model.todos, this.handleRemoveTodo.bind(this));
-    },
+    const HTMLTemplate = createTemplate(data);
+    renderTodoItem(HTMLTemplate);
+    target.reset();
   };
 
-  return todoController;
+  const removeTodoItemHandler = (e) => {
+    e.stopPropagation();
+    const { target } = e;
+    if (!target.hasAttribute('data-remove-btn')) return;
+    const removedEl = target.closest('[data-todo-item]');
+    removedEl.remove();
+    return removedEl;
+  };
+
+  const loadedHandler = () => {
+    const form = document.querySelector('#todoForm');
+    const todoContainer = document.querySelector('#todoItems');
+
+    form.addEventListener('submit', formHandler);
+    todoContainer.addEventListener('click', removeTodoItemHandler);
+  };
+
+  document.addEventListener('DOMContentLoaded', loadedHandler);
 }());
-
-document.addEventListener('DOMContentLoaded', () => {
-  todoApp.init();
-});
