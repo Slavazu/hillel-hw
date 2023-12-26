@@ -1,21 +1,28 @@
 (function () {
-  const CONSTANTS = Object.freeze({
-    todoFormSelector: '#todoForm',
-    todoContainerSelector: '#todoItems',
-    dataKey: 'formData',
-  });
+  const appConstants = {
+    get todoFormSelector() {
+      return '#todoForm';
+    },
+
+    get todoContainerSelector() {
+      return '#todoItems';
+    },
+
+    get dataKey() {
+      return 'formData';
+    },
+  };
 
   const controller = {
-    formHandler(e) {
+    _formHandler(e) {
       e.preventDefault();
       e.stopPropagation();
 
       const { target } = e;
-      const data = Array.from(target.querySelectorAll('input, textarea'))
-        .reduce((acc, item) => {
-          acc[item.name] = item.value;
-          return acc;
-        }, {});
+      const data = Array.from(target.querySelectorAll('input, textarea')).reduce((acc, item) => {
+        acc[item.name] = item.value;
+        return acc;
+      }, {});
 
       const savedData = model.save(data);
 
@@ -25,7 +32,7 @@
       }
     },
 
-    removeTodoItemHandler(e) {
+    _removeTodoItemHandler(e) {
       e.stopPropagation();
 
       const { target } = e;
@@ -41,36 +48,44 @@
       }
     },
 
-    loadedHandler() {
+    _loadedHandler() {
       model.initId();
 
-      const form = document.querySelector(CONSTANTS.todoFormSelector);
-      form.addEventListener('submit', this.formHandler);
+      const form = document.querySelector(appConstants.todoFormSelector);
+      form.addEventListener('submit', this._formHandler);
 
       model.get().forEach((item) => view.renderElement(item));
 
-      const todoContainer = document.querySelector(CONSTANTS.todoContainerSelector);
-      todoContainer.addEventListener('click', this.removeTodoItemHandler);
+      const todoContainer = document.querySelector(appConstants.todoContainerSelector);
+      todoContainer.addEventListener('click', this._removeTodoItemHandler);
     },
 
     init() {
-      this.formHandler = this.formHandler.bind(this);
-      this.removeTodoItemHandler = this.removeTodoItemHandler.bind(this);
-      this.loadedHandler = this.loadedHandler.bind(this);
+      this._formHandler = this._formHandler.bind(this);
+      this._removeTodoItemHandler = this._removeTodoItemHandler.bind(this);
+      this._loadedHandler = this._loadedHandler.bind(this);
 
-      document.addEventListener('DOMContentLoaded', this.loadedHandler);
+      document.addEventListener('DOMContentLoaded', this._loadedHandler);
     },
   };
 
   const view = {
+    _todoContainer: null,
+
+    get todoContainer() {
+      if (!this._todoContainer) {
+        this._todoContainer = document.querySelector(appConstants.todoContainerSelector);
+      }
+      return this._todoContainer;
+    },
+
     renderElement(data) {
       const template = this.createTemplate(data);
       this.renderTodoItem(template);
     },
 
     renderTodoItem(template) {
-      const todoContainer = document.querySelector(CONSTANTS.todoContainerSelector);
-      todoContainer.prepend(template);
+      this.todoContainer.prepend(template);
     },
 
     createTemplate(data) {
@@ -102,7 +117,7 @@
     },
 
     resetForm() {
-      document.querySelector(CONSTANTS.todoFormSelector).reset();
+      document.querySelector(appConstants.todoFormSelector).reset();
     },
 
     removeElement(todoId) {
@@ -114,7 +129,15 @@
   };
 
   const model = {
-    currentId: 0,
+    _currentId: 0,
+
+    get currentId() {
+      return this._currentId;
+    },
+
+    set currentId(value) {
+      this._currentId = value;
+    },
 
     save(data) {
       this.currentId++;
@@ -123,7 +146,7 @@
       savedData.push(dataCopy);
 
       try {
-        localStorage.setItem(CONSTANTS.dataKey, JSON.stringify(savedData));
+        localStorage.setItem(appConstants.dataKey, JSON.stringify(savedData));
         return dataCopy;
       } catch (e) {
         console.error('Error saving data:', e.message);
@@ -132,7 +155,7 @@
     },
 
     get() {
-      const savedData = JSON.parse(localStorage.getItem(CONSTANTS.dataKey)) || [];
+      const savedData = JSON.parse(localStorage.getItem(appConstants.dataKey)) || [];
       return savedData;
     },
 
@@ -144,7 +167,7 @@
         const removedElement = savedElements.splice(index, 1)[0];
 
         try {
-          localStorage.setItem(CONSTANTS.dataKey, JSON.stringify(savedElements));
+          localStorage.setItem(appConstants.dataKey, JSON.stringify(savedElements));
           return removedElement;
         } catch (e) {
           console.error('Error removing element:', e.message);
