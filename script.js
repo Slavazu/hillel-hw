@@ -16,7 +16,6 @@ function Car(brand, model, year, license, owner) {
     this.owner = owner;
   } else {
     console.log('Владелец должен быть старше 18 лет.');
-    return null;
   }
 }
 
@@ -31,7 +30,7 @@ const person3 = new Person('Александр', 22);
 const person4 = new Person('Татьяна', 35);
 const person5 = new Person('Андрей', 28);
 const person6 = new Person('Ольга', 40);
-const person7 = new Person('Виталий', 19);
+const person7 = new Person('Виталий', 17);
 
 const car1 = new Car('Toyota', 'Camry', 2022, 'ВН0234МН', person1);
 const car2 = new Car('Honda', 'Civic', 2020, 'НН0230ТН', person2);
