@@ -2,7 +2,7 @@
   "name": "hillel-hw",
   "version": "1.0.0",
   "description": "~~~~Опис ДЗ~~~~",
-  "main": "script.js",
+  "main": "js/script.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
